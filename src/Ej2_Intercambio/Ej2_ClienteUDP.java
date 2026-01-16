@@ -33,7 +33,7 @@ public class Ej2_ClienteUDP {
         socketCliente.receive(datagramaRecibido);
         //Convertimos el datagrama a String
         String mensajeRecibido = new String(datagramaRecibido.getData());
-        System.out.println(mensajeRecibido.trim());
+        System.out.println(datagramaRecibido.getPort()+": "+mensajeRecibido.trim());
 
         socketCliente.close();
 

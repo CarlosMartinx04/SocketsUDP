@@ -14,9 +14,7 @@ public class Ej2_ServidorUDP {
         //PUERTO AL QUE VA A IR EL MENSAJE
         int port = 12346;
 
-
         DatagramSocket socketServidor = new DatagramSocket(12345);
-
         System.out.println("Esperando datagrama");
 
         //Objeto que almacenara el mensaje
@@ -28,7 +26,7 @@ public class Ej2_ServidorUDP {
         //Mostramos en pantalla el mensaje recibido
         System.out.println(datagramaRecibido.getPort()+": "+mensajeRecibido.trim());
 
-        String mensajeEnviado = "Servidor "+destino+": Mensaje recibido";
+        String mensajeEnviado = "Mensaje recibido";
         //Convertimos el string de mensajeEnviado a bytes
         buffer = mensajeEnviado.getBytes();
         //Ahora lo convertimos a datagrama
@@ -36,8 +34,5 @@ public class Ej2_ServidorUDP {
         //Ahora el servidor enviara el DATAGRAMA al cliente
         socketServidor.send(datagramaEnviado);
         socketServidor.close();
-
-
     }
-
 }
