@@ -8,22 +8,28 @@ import java.util.Scanner;
 public class MulticastServer {
     public static void main(String args[]) throws Exception {
         // Enviamos la información introducida por teclado hasta que se envíe un *
-        Scanner in = new Scanner(System.in);
-        //Se crea el socket multicast.
-        MulticastSocket ms = new MulticastSocket();
-        // Se escoge un puerto para el server
+        Scanner sc = new Scanner(System.in);
         int puerto = 12345;
+
+        //Se crea el socket multicast.
+        MulticastSocket ms = new MulticastSocket(puerto);
+        // Se escoge un puerto para el server
         // Se escoge una dirección para el grupo
         InetAddress grupoMulticast = InetAddress.getByName("225.0.0.1");
+        ms.joinGroup(grupoMulticast);
         String cadena = "";
         while (!cadena.trim().equals("*")) {
-            System.out.print("Datos a enviar al grupo: ");
-            cadena = in.nextLine();
-            // Enviamos el mensaje a todos los clientes que se hayan unido al grupo
-            DatagramPacket paquete = new DatagramPacket(cadena.getBytes(),
-                    cadena.length(), grupoMulticast, puerto);
-            ms.send(paquete);
+            // El buffer se crea dentro del bucle para que se sobrescriba
+            // con cada nuevo mensaje
+            byte[] buf = new byte[1000];
+            DatagramPacket paquete = new DatagramPacket(buf, buf.length);
+            //Recibe el paquete del servidor multicast
+            ms.receive(paquete);
+            cadena = new String(paquete.getData());
+
+            System.out.println("Recibo: " + cadena.trim());
         }
+        ms.leaveGroup(grupoMulticast);
         // Cerramos recursos
         ms.close();
         System.out.println("Socket cerrado...");
