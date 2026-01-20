@@ -37,10 +37,5 @@ public class Ej2_ClienteUDP {
 
         socketCliente.close();
 
-
-
-
-
-
     }
 }
