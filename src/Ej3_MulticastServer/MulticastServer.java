@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.Scanner;
 
+
+//Hice este ejercicio con multicast cuando podia haberlo hecho con sockets pero cumple con su funcionamiento
 public class MulticastServer {
     public static void main(String args[]) throws Exception {
         // Enviamos la información introducida por teclado hasta que se envíe un *
