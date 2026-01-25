@@ -1,19 +1,34 @@
 package Ej5_MulticastServer;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.Scanner;
 
 public class Ej5_Emisor {
-    public static void main(String[] args) throws IOException {
-
-        Scanner sc = new Scanner(System.in);
-        int puerto = 4446;//Puerto del servidor
-        System.out.println("Escribe un mensaje para enviar al grupo.");
+    public static void main(String args[]) throws Exception {
+        // Enviamos la información introducida por teclado hasta que se envíe un *
+        Scanner in = new Scanner(System.in);
+        //Se crea el socket multicast.
         MulticastSocket ms = new MulticastSocket();
-        InetAddress grupo = InetAddress.getByName("230.0.0.1");
+        // Se escoge un puerto para el server
+        int puerto = 4446;
+        // Se escoge una dirección para el grupo
+        InetAddress grupoMulticast = InetAddress.getByName("230.0.0.1");
+        String cadena = "";
+        while (!cadena.trim().equals("*")) {
+            System.out.print("Datos a enviar al grupo: ");
+            cadena = in.nextLine();
+        // Enviamos el mensaje a todos los clientes que se hayan unido al grupo
+            DatagramPacket paquete = new DatagramPacket(cadena.getBytes(),
+                    cadena.length(), grupoMulticast, puerto);
+            ms.send(paquete);
+        }
 
-
+        // Cerramos recursos
+        ms.close();
+        System.out.println("Socket cerrado...");
     }
 }
+
